@@ -5,5 +5,6 @@ use_frameworks!
 
 target 'DataSyncDemo' do
     pod 'Realm'
-    pod 'ReactiveCocoa’, '~> 2.5'
+    pod 'Mantle'
+    pod 'ReactiveCocoa', '~> 2.5'
 end

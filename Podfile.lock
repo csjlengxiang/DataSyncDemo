@@ -1,4 +1,7 @@
 PODS:
+  - Mantle (2.0.7):
+    - Mantle/extobjc (= 2.0.7)
+  - Mantle/extobjc (2.0.7)
   - ReactiveCocoa (2.5):
     - ReactiveCocoa/UI (= 2.5)
   - ReactiveCocoa/Core (2.5):
@@ -11,13 +14,15 @@ PODS:
   - Realm/Headers (1.0.2)
 
 DEPENDENCIES:
+  - Mantle
   - ReactiveCocoa (~> 2.5)
   - Realm
 
 SPEC CHECKSUMS:
+  Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   Realm: 9d5c46a4d7d27958530a8dfc58f63a99e5c2cba3
 
-PODFILE CHECKSUM: b907e543c752b0b633ca1fe70741d178fc2870b5
+PODFILE CHECKSUM: 6a64700e4e94c4bab2b10048107e84e435194650
 
 COCOAPODS: 1.0.1

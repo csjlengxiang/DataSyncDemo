@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3860047A1DAD116C001E7527 /* RealmDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 386004791DAD116C001E7527 /* RealmDataManager.m */; };
+		3860047D1DAD1F9C001E7527 /* DataSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3860047C1DAD1F9C001E7527 /* DataSyncManager.m */; };
 		3898A6D31DACC9C500DE96BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898A6D21DACC9C500DE96BF /* main.m */; };
 		3898A6D61DACC9C500DE96BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898A6D51DACC9C500DE96BF /* AppDelegate.m */; };
 		3898A6D91DACC9C500DE96BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898A6D81DACC9C500DE96BF /* ViewController.m */; };
@@ -15,6 +17,7 @@
 		3898A6E11DACC9C500DE96BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3898A6DF1DACC9C500DE96BF /* LaunchScreen.storyboard */; };
 		3898A6EC1DACC9C500DE96BF /* DataSyncDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898A6EB1DACC9C500DE96BF /* DataSyncDemoTests.m */; };
 		3898A6F71DACC9C500DE96BF /* DataSyncDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898A6F61DACC9C500DE96BF /* DataSyncDemoUITests.m */; };
+		38BB7A121DACED4000068298 /* DataSyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BB7A111DACED4000068298 /* DataSyncData.m */; };
 		7DB0A3EA2074BD1F94141371 /* Pods_DataSyncDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0464FC2DC2F6A68CC7B0A23D /* Pods_DataSyncDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,11 @@
 
 /* Begin PBXFileReference section */
 		0464FC2DC2F6A68CC7B0A23D /* Pods_DataSyncDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DataSyncDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		386004781DAD116C001E7527 /* RealmDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmDataManager.h; sourceTree = "<group>"; };
+		386004791DAD116C001E7527 /* RealmDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmDataManager.m; sourceTree = "<group>"; };
+		3860047B1DAD1F9C001E7527 /* DataSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncManager.h; sourceTree = "<group>"; };
+		3860047C1DAD1F9C001E7527 /* DataSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSyncManager.m; sourceTree = "<group>"; };
+		388379411DACE96B00DCEC6E /* DataSyncDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncDelegate.h; sourceTree = "<group>"; };
 		3898A6CE1DACC9C500DE96BF /* DataSyncDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataSyncDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3898A6D21DACC9C500DE96BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3898A6D41DACC9C500DE96BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -53,6 +61,8 @@
 		3898A6F21DACC9C500DE96BF /* DataSyncDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSyncDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3898A6F61DACC9C500DE96BF /* DataSyncDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataSyncDemoUITests.m; sourceTree = "<group>"; };
 		3898A6F81DACC9C500DE96BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38BB7A101DACED4000068298 /* DataSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncData.h; sourceTree = "<group>"; };
+		38BB7A111DACED4000068298 /* DataSyncData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSyncData.m; sourceTree = "<group>"; };
 		437B7946693A2789E413860B /* Pods-DataSyncDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DataSyncDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-DataSyncDemo/Pods-DataSyncDemo.release.xcconfig"; sourceTree = "<group>"; };
 		B55D4536CC76811758CB646F /* Pods-DataSyncDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DataSyncDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DataSyncDemo/Pods-DataSyncDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +136,13 @@
 				3898A6DF1DACC9C500DE96BF /* LaunchScreen.storyboard */,
 				3898A6E21DACC9C500DE96BF /* Info.plist */,
 				3898A6D11DACC9C500DE96BF /* Supporting Files */,
+				388379411DACE96B00DCEC6E /* DataSyncDelegate.h */,
+				38BB7A101DACED4000068298 /* DataSyncData.h */,
+				38BB7A111DACED4000068298 /* DataSyncData.m */,
+				386004781DAD116C001E7527 /* RealmDataManager.h */,
+				386004791DAD116C001E7527 /* RealmDataManager.m */,
+				3860047B1DAD1F9C001E7527 /* DataSyncManager.h */,
+				3860047C1DAD1F9C001E7527 /* DataSyncManager.m */,
 			);
 			path = DataSyncDemo;
 			sourceTree = "<group>";
@@ -353,7 +370,10 @@
 			files = (
 				3898A6D91DACC9C500DE96BF /* ViewController.m in Sources */,
 				3898A6D61DACC9C500DE96BF /* AppDelegate.m in Sources */,
+				38BB7A121DACED4000068298 /* DataSyncData.m in Sources */,
 				3898A6D31DACC9C500DE96BF /* main.m in Sources */,
+				3860047D1DAD1F9C001E7527 /* DataSyncManager.m in Sources */,
+				3860047A1DAD116C001E7527 /* RealmDataManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

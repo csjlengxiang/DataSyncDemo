@@ -7,23 +7,26 @@
 //
 
 #import "ViewController.h"
-
-@interface ViewController ()
-
-@end
+#import "DataSyncData.h"
+#import "DataSyncManager.h"
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    for (int i = 0; i < 10; i++) {
+        DataSyncData * data = [[DataSyncData alloc] init];
+        data.key = [NSString stringWithFormat:@"key %d", i];
+        data.status = Wait;
+        data.modifyUtc = [[NSDate date] timeIntervalSince1970];
+        [[data RealmData] store];
+    }
+    
+    NSString * res =
+    [[DataSyncManager sharedInstance] uploadJsonStr];
+    
+    NSLog(@"---- json %@", res);
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 @end

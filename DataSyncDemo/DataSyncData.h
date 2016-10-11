@@ -1,0 +1,47 @@
+//
+//  DataSyncData.h
+//  DataSyncDemo
+//
+//  Created by sijiechen3 on 16/10/11.
+//  Copyright © 2016年 sijiechen3. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "DataSyncDelegate.h"
+#import <Mantle/Mantle.h>
+#import <Realm/Realm.h>
+#import "RealmDataManager.h"
+
+@class DataSyncRealmData;
+@class DataSyncMantleData;
+
+@interface DataSyncData : NSObject ///<DataSyncDataDelegate>
+
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) UploadStatus status;
+@property (assign, nonatomic) int modifyUtc;
+
+- (DataSyncRealmData *)RealmData;
+- (DataSyncMantleData *)MantleData;
+
+- (void)update;
+
+@end
+
+@interface DataSyncRealmData : RLMObject 
+
+@property NSString * key;
+@property UploadStatus status;
+@property int modifyUtc;
+
+- (void)store;
+- (DataSyncData *)Data;
+
+@end
+
+@interface DataSyncMantleData : MTLModel <MTLJSONSerializing>
+
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) int modifyUtc;
+
+@end
