@@ -11,6 +11,9 @@
 
 @interface RealmDataManager ()
 
+@property (nonatomic, strong) Class dataClass;
+@property (nonatomic, strong) Class realmClass;
+
 @end
 
 @implementation RealmDataManager
@@ -24,14 +27,15 @@
     return instance;
 }
 
-- (instancetype)init {
+- (instancetype)initWithDataClass:(Class)dataClass realmClass:(Class)realmClass {
     if (self = [super init]) {
-        
+        self.dataClass = dataClass;
+        self.realmClass = realmClass;
     }
     return self;
 }
 
-- (void)store:(RLMObject *)object {
++ (void)store:(RLMObject *)object {
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^{
         [realm addOrUpdateObject:object];
@@ -42,24 +46,24 @@
     NSMutableArray * ret = [NSMutableArray new];
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    RLMResults * arr = [[DataSyncRealmData allObjects] objectsWhere:@"status == %d", Ing];
-    for (DataSyncRealmData * data in arr) {
-        [ret addObject:[data data:[DataSyncData class]]];
+    RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
+    for (id data in arr) {
+        [ret addObject:[(NSObject *)data data:self.dataClass]];
     }
     [realm commitWriteTransaction];
     return ret;
 }
 
-- (NSArray<DataSyncData *> *)waitUploadSyncData {
+- (NSArray *)waitUploadSyncData {
     [self reset];
     NSMutableArray * ret = [NSMutableArray new];
     RLMRealm *realm = [RLMRealm defaultRealm];
     // 注意此处需要原子操作
     [realm beginWriteTransaction];
-    RLMResults * arr = [[DataSyncRealmData allObjects] objectsWhere:@"status == %d", Wait];
-    for (DataSyncRealmData * data in arr) {
+    RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Wait];
+    for (id<DataSyncRealmDataDelegate> data in arr) {
         data.status = Ing;
-        [ret addObject:[data data:[DataSyncData class]]];
+        [ret addObject:[(NSObject *)data data:self.dataClass]];
     }
     [realm commitWriteTransaction];
     return ret;
@@ -68,11 +72,36 @@
 - (void)reset {
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    RLMResults * arr = [[DataSyncRealmData allObjects] objectsWhere:@"status == %d", Ing];
-    for (DataSyncRealmData * data in arr) {
+    RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
+    for (id<DataSyncRealmDataDelegate> data in arr) {
         data.status = Wait;
     }
     [realm commitWriteTransaction];
+}
+
+- (void)storeArr:(NSArray<id<DataSyncResponseDataDelegate>> *)responseArr {
+    NSMutableDictionary * responseDic = [NSMutableDictionary new]; // 全集
+    for (id<DataSyncResponseDataDelegate> responseData in responseArr) {
+        responseDic[responseData.key] = responseData;
+    }
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
+    for (id<DataSyncRealmDataDelegate> data in arr) { // 在上传过程中可能将ing->wait，故这里是子集
+        if (responseDic[data.key]) {
+            id<DataSyncResponseDataDelegate> responseData = responseDic[data.key];
+            if (responseData.status == Success) {
+                data.status = Completed;
+                data.serverUpdateUtc = responseData.serverUpdateUtc;
+                continue;
+            }
+        }
+        // 失败情况
+        data.status = Wait;
+    }
+    [realm commitWriteTransaction];
+    
+    NSLog(@"%@", realm.configuration.fileURL);
 }
 
 @end

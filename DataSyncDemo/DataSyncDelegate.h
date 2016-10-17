@@ -12,8 +12,15 @@
 typedef NS_ENUM(NSInteger, UploadStatus) {
     Wait,
     Ing,
-    Completed
+    Completed,
 };
+
+typedef NS_ENUM(NSInteger, UploadResponseStatus) {
+    Success,
+    Failure,
+};
+
+
 
 //@protocol DataSyncAarryDataDelegate <NSObject>
 //
@@ -31,14 +38,17 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
 //
 @protocol DataSyncRealmDataDelegate <NSObject>
 
-- (id)Data;
-//@property (strong, nonatomic) NSString * key;
-//@property (assign, nonatomic) UploadStatus status;
+//- (id)Data;
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) UploadStatus status;
+@property (assign, nonatomic) int serverUpdateUtc;
 
 @end
-//
-//@protocol DataSyncMantleDataDelegate <NSObject>
-//
-//@property (strong, nonatomic) NSString * key;
-//
-//@end
+
+@protocol DataSyncResponseDataDelegate <NSObject>
+
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) UploadResponseStatus status;
+@property (assign, nonatomic) int serverUpdateUtc;
+
+@end

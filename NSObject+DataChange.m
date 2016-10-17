@@ -35,7 +35,7 @@
     NSMutableSet<NSString *> * keysSet = [NSMutableSet setWithArray:[NSObject getPropertyKeys:[self class]]];
     NSMutableSet<NSString *> * dataKeysSet = [NSMutableSet setWithArray:[NSObject getPropertyKeys:class]];
     [keysSet intersectSet:dataKeysSet];
-    NSLog(@"key set: %@", keysSet);
+//    NSLog(@"key set: %@", keysSet);
     NSArray<NSString *> * keyArr = [keysSet allObjects];
     id data = [[class alloc] init];
     for (NSString * key in keyArr) {

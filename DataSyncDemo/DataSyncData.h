@@ -12,7 +12,7 @@
 #import <Realm/Realm.h>
 
 @class DataSyncRealmData;
-@class DataSyncMantleData;
+@class DataSyncRequesteData;
 
 @interface DataSyncData : NSObject ///<DataSyncDataDelegate>
 
@@ -36,9 +36,17 @@
 
 @end
 
-@interface DataSyncMantleData : MTLModel <MTLJSONSerializing>
+@interface DataSyncRequestData : MTLModel <MTLJSONSerializing>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) int modifyUtc;
+
+@end
+
+@interface DataSyncResponseData : MTLModel <MTLJSONSerializing, DataSyncResponseDataDelegate>
+
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) UploadResponseStatus status;
+@property (assign, nonatomic) int serverUpdateUtc;
 
 @end

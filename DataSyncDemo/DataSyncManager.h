@@ -12,6 +12,5 @@
 
 + (instancetype)sharedInstance;
 - (void)upload;
-- (NSString *)uploadJsonStr;
 
 @end

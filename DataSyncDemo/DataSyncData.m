@@ -42,17 +42,23 @@
 }
 
 - (void)store {
-    [[RealmDataManager sharedInstance] store:self];
+    [RealmDataManager store:self];
 }
 
 @end
 
-@implementation DataSyncMantleData
+@implementation DataSyncRequestData
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"key": @"key",
              @"modifyUtc": @"modify_utc"
              };
 }
+
+@end
+
+@implementation DataSyncResponseData
+
+
 
 @end

@@ -1,4 +1,4 @@
-//
+ //
 //  DataSyncManager.m
 //  DataSyncDemo
 //
@@ -11,6 +11,12 @@
 #import "DataSyncData.h"
 #import "NSObject+DataChange.h"
 
+@interface DataSyncManager ()
+
+@property (strong, nonatomic) RealmDataManager * realmDataManager;
+
+@end
+
 @implementation DataSyncManager
 
 + (instancetype)sharedInstance {
@@ -22,46 +28,51 @@
     return instance;
 }
 
-- (NSString *)uploadJsonStr {
-    NSArray<DataSyncData *> * res = [[RealmDataManager sharedInstance] waitUploadSyncData];
-    NSMutableArray <DataSyncMantleData *> * mantleArr = [NSMutableArray new];
+- (instancetype)init {
+    if (self = [super init]) {
+        self.realmDataManager = [[RealmDataManager alloc] initWithDataClass:[DataSyncData class] realmClass:[DataSyncRealmData class]];
+    }
+    return self;
+}
+
+- (void)upload {
+    NSLog(@"-- start upload");
+    
+    NSArray<DataSyncData *> * res = [self.realmDataManager waitUploadSyncData];
+    NSMutableArray <DataSyncRequestData *> * mantleArr = [NSMutableArray new];
     for (DataSyncData * data in res) {
-        [mantleArr addObject:[data data:[DataSyncMantleData class]]];
+        [mantleArr addObject:[data data:[DataSyncRequestData class]]];
     }
     NSError * error = nil;
     NSArray * dic = [MTLJSONAdapter JSONArrayFromModels:mantleArr error:&error];
     NSData * jsonData = [NSJSONSerialization dataWithJSONObject:@{@"arr_data": dic} options:0 error:&error];
     NSString * result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    return result;
-}
-
-- (void)upload {
-    NSLog(@"-- start upload");
-    NSString * str = [self uploadJsonStr];
+    
+    // 模拟上传
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSData * jsonData = [str dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSData * json = [result dataUsingEncoding:NSUTF8StringEncoding];
         NSError * err;
-        NSMutableDictionary * dic = [NSJSONSerialization JSONObjectWithData:jsonData
+        NSMutableDictionary * dic = [NSJSONSerialization JSONObjectWithData:json
                                                              options:NSJSONReadingMutableContainers
                                                                error:&err];
         dic[@"server_update_utc"] = @([[NSDate date] timeIntervalSince1970]);
+
         
-        NSLog(@"response dic %@", dic);
-        
-        NSArray <DataSyncData *> *uploadingData = [[RealmDataManager sharedInstance] uploadingSyncData];
-        
-        for (DataSyncData * data in uploadingData) {
-            if (dic[data.key]) {
-                // success
-                data.status = Completed;
-                data.serverUpdateUtc = [dic[data.key] intValue] + 10;
-            } else {
-                data.status = Wait;
-                data.serverUpdateUtc = [dic[data.key] intValue] + 10;
-            }
+        NSMutableArray<DataSyncResponseData *> * responseArr = [NSMutableArray new];
+        for (id responseData in dic[@"arr_data"]) {
+            DataSyncResponseData * data = [DataSyncResponseData new];
+            data.key = responseData[@"key"];
+            data.serverUpdateUtc = [responseData[@"modify_utc"] intValue] + 10;
+            data.status = Success;
+            [responseArr addObject:data];
         }
         
-        NSLog(@"response ans %@", uploadingData);
+        [self.realmDataManager storeArr:responseArr];
+        
+        //[self.realmDataManager storeArr:uploadingData];
+        
+        //NSLog(@"response ans %@", uploadingData);
     });
 }
 

@@ -8,18 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
-#import "DataSyncData.h"
+#import "DataSyncDelegate.h"
 
 @interface RealmDataManager : NSObject
 
-+ (instancetype)sharedInstance;
-- (void)store:(RLMObject *)object;
-- (NSArray<DataSyncData *> *)uploadingSyncData;
-- (NSArray<DataSyncData *> *)waitUploadSyncData;
++ (void)store:(RLMObject *)object;
 
-//- (void)ustore:(RLMObject *)object;
-//- (RLMResults *)ObjectsOfClass:(Class)class;
-//- (id)runBlock:(id (^)())block;
-//- (void)urunInRealm:(void (^)())block;
+- (instancetype)initWithDataClass:(Class)dataClass realmClass:(Class)realmClass;
+- (NSArray *)uploadingSyncData;
+- (NSArray *)waitUploadSyncData;
+- (void)storeArr:(NSArray<id<DataSyncResponseDataDelegate>> *)responseArr;
 
 @end
