@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "DataSyncData.h"
 #import "DataSyncManager.h"
+#import "NSObject+DataChange.h"
 
 @implementation ViewController
 
@@ -20,13 +21,10 @@
         data.key = [NSString stringWithFormat:@"key %d", i];
         data.status = Wait;
         data.modifyUtc = [[NSDate date] timeIntervalSince1970];
-        [[data RealmData] store];
+        [[data data:[DataSyncRealmData class]] store];
     }
     
-    NSString * res =
-    [[DataSyncManager sharedInstance] uploadJsonStr];
-    
-    NSLog(@"---- json %@", res);
+    [[DataSyncManager sharedInstance] upload];
 }
 
 @end

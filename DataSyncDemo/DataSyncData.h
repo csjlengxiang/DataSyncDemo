@@ -10,7 +10,6 @@
 #import "DataSyncDelegate.h"
 #import <Mantle/Mantle.h>
 #import <Realm/Realm.h>
-#import "RealmDataManager.h"
 
 @class DataSyncRealmData;
 @class DataSyncMantleData;
@@ -20,9 +19,7 @@
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadStatus status;
 @property (assign, nonatomic) int modifyUtc;
-
-- (DataSyncRealmData *)RealmData;
-- (DataSyncMantleData *)MantleData;
+@property (assign, nonatomic) int serverUpdateUtc;
 
 - (void)update;
 
@@ -33,9 +30,9 @@
 @property NSString * key;
 @property UploadStatus status;
 @property int modifyUtc;
+@property int serverUpdateUtc;
 
 - (void)store;
-- (DataSyncData *)Data;
 
 @end
 

@@ -7,11 +7,9 @@
 //
 
 #import "RealmDataManager.h"
-#import "DataSyncDelegate.h"
+#import "NSObject+DataChange.h"
 
 @interface RealmDataManager ()
-
-@property (nonatomic, strong) dispatch_queue_t ioQueue;
 
 @end
 
@@ -28,40 +26,53 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.ioQueue = dispatch_queue_create("ioQueue", DISPATCH_QUEUE_SERIAL);
+        
     }
     return self;
 }
 
 - (void)store:(RLMObject *)object {
-    dispatch_async(self.ioQueue, ^{
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        [realm transactionWithBlock:^{
-            [realm addOrUpdateObject:object];
-        }];
-    });
-}
-
-- (void)ustore:(RLMObject *)object {
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^{
         [realm addOrUpdateObject:object];
     }];
 }
 
-- (void)urunInRealm:(void (^)())block {
+- (NSArray *)uploadingSyncData {
+    NSMutableArray * ret = [NSMutableArray new];
     RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm transactionWithBlock:^{
-        block();
-    }];
+    [realm beginWriteTransaction];
+    RLMResults * arr = [[DataSyncRealmData allObjects] objectsWhere:@"status == %d", Ing];
+    for (DataSyncRealmData * data in arr) {
+        [ret addObject:[data data:[DataSyncData class]]];
+    }
+    [realm commitWriteTransaction];
+    return ret;
 }
 
-- (id)runBlock:(id (^)())block {
-    __block id res;
-    dispatch_sync(self.ioQueue, ^{
-        res = block();
-    });
-    return res;
+- (NSArray<DataSyncData *> *)waitUploadSyncData {
+    [self reset];
+    NSMutableArray * ret = [NSMutableArray new];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    // 注意此处需要原子操作
+    [realm beginWriteTransaction];
+    RLMResults * arr = [[DataSyncRealmData allObjects] objectsWhere:@"status == %d", Wait];
+    for (DataSyncRealmData * data in arr) {
+        data.status = Ing;
+        [ret addObject:[data data:[DataSyncData class]]];
+    }
+    [realm commitWriteTransaction];
+    return ret;
+}
+
+- (void)reset {
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    RLMResults * arr = [[DataSyncRealmData allObjects] objectsWhere:@"status == %d", Ing];
+    for (DataSyncRealmData * data in arr) {
+        data.status = Wait;
+    }
+    [realm commitWriteTransaction];
 }
 
 @end

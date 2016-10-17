@@ -7,27 +7,30 @@
 //
 
 #import "DataSyncData.h"
+#import "RealmDataManager.h"
+#import <objc/runtime.h>
+#import "NSObject+DataChange.h"
 
 @implementation DataSyncData 
 
-- (DataSyncRealmData *)RealmData {
-    DataSyncRealmData * data = [[DataSyncRealmData alloc] init];
-    data.key = self.key;
-    data.status = self.status;
-    data.modifyUtc = self.modifyUtc;
-    return data;
-}
-
-- (DataSyncMantleData *)MantleData {
-    DataSyncMantleData * data = [[DataSyncMantleData alloc] init];
-    data.key = self.key;
-    data.modifyUtc = self.modifyUtc;
-    return data;
-}
+//- (DataSyncRealmData *)RealmData {
+//    DataSyncRealmData * data = [[DataSyncRealmData alloc] init];
+//    data.key = self.key;
+//    data.status = self.status;
+//    data.modifyUtc = self.modifyUtc;
+//    return data;
+//}
+//
+//- (DataSyncMantleData *)MantleData {
+//    DataSyncMantleData * data = [[DataSyncMantleData alloc] init];
+//    data.key = self.key;
+//    data.modifyUtc = self.modifyUtc;
+//    return data;
+//}
 
 - (void)update {
     self.status = Wait;
-    [[self RealmData] store];
+    [[self data:[DataSyncRealmData class]] store];
 }
 
 @end
@@ -40,14 +43,6 @@
 
 - (void)store {
     [[RealmDataManager sharedInstance] store:self];
-}
-
-- (DataSyncData *)Data {
-    DataSyncData * data = [[DataSyncData alloc] init];
-    data.key = self.key;
-    data.status = self.status;
-    data.modifyUtc = self.modifyUtc;
-    return data;
 }
 
 @end

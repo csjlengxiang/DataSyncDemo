@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		38203D561DB4D08B00F4738A /* NSObject+DataChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 38203D551DB4D08B00F4738A /* NSObject+DataChange.m */; };
 		3860047A1DAD116C001E7527 /* RealmDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 386004791DAD116C001E7527 /* RealmDataManager.m */; };
 		3860047D1DAD1F9C001E7527 /* DataSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3860047C1DAD1F9C001E7527 /* DataSyncManager.m */; };
 		3898A6D31DACC9C500DE96BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898A6D21DACC9C500DE96BF /* main.m */; };
@@ -40,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		0464FC2DC2F6A68CC7B0A23D /* Pods_DataSyncDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DataSyncDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		38203D541DB4D08B00F4738A /* NSObject+DataChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DataChange.h"; sourceTree = "<group>"; };
+		38203D551DB4D08B00F4738A /* NSObject+DataChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DataChange.m"; sourceTree = "<group>"; };
 		386004781DAD116C001E7527 /* RealmDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmDataManager.h; sourceTree = "<group>"; };
 		386004791DAD116C001E7527 /* RealmDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmDataManager.m; sourceTree = "<group>"; };
 		3860047B1DAD1F9C001E7527 /* DataSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncManager.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 		3898A6C51DACC9C500DE96BF = {
 			isa = PBXGroup;
 			children = (
+				38203D541DB4D08B00F4738A /* NSObject+DataChange.h */,
+				38203D551DB4D08B00F4738A /* NSObject+DataChange.m */,
 				3898A6D01DACC9C500DE96BF /* DataSyncDemo */,
 				3898A6EA1DACC9C500DE96BF /* DataSyncDemoTests */,
 				3898A6F51DACC9C500DE96BF /* DataSyncDemoUITests */,
@@ -370,6 +375,7 @@
 			files = (
 				3898A6D91DACC9C500DE96BF /* ViewController.m in Sources */,
 				3898A6D61DACC9C500DE96BF /* AppDelegate.m in Sources */,
+				38203D561DB4D08B00F4738A /* NSObject+DataChange.m in Sources */,
 				38BB7A121DACED4000068298 /* DataSyncData.m in Sources */,
 				3898A6D31DACC9C500DE96BF /* main.m in Sources */,
 				3860047D1DAD1F9C001E7527 /* DataSyncManager.m in Sources */,

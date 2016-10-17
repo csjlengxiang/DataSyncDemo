@@ -11,7 +11,7 @@
 @interface DataSyncManager : NSObject
 
 + (instancetype)sharedInstance;
-
+- (void)upload;
 - (NSString *)uploadJsonStr;
 
 @end
