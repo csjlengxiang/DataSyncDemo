@@ -12,5 +12,6 @@
 
 + (instancetype)sharedInstance;
 - (void)upload;
+- (void)download;
 
 @end

@@ -11,27 +11,7 @@
 #import <objc/runtime.h>
 #import "NSObject+DataChange.h"
 
-@implementation DataSyncData 
-
-//- (DataSyncRealmData *)RealmData {
-//    DataSyncRealmData * data = [[DataSyncRealmData alloc] init];
-//    data.key = self.key;
-//    data.status = self.status;
-//    data.modifyUtc = self.modifyUtc;
-//    return data;
-//}
-//
-//- (DataSyncMantleData *)MantleData {
-//    DataSyncMantleData * data = [[DataSyncMantleData alloc] init];
-//    data.key = self.key;
-//    data.modifyUtc = self.modifyUtc;
-//    return data;
-//}
-
-- (void)update {
-    self.status = Wait;
-    [[self data:[DataSyncRealmData class]] store];
-}
+@implementation DataSyncData
 
 @end
 
@@ -47,18 +27,10 @@
 
 @end
 
-@implementation DataSyncRequestData
-
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"key": @"key",
-             @"modifyUtc": @"modify_utc"
-             };
-}
+@implementation DataSyncUploadResponseData
 
 @end
 
-@implementation DataSyncResponseData
-
-
+@implementation DataSyncDownloadResponseData
 
 @end

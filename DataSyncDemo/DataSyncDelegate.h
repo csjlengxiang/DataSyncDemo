@@ -20,35 +20,36 @@ typedef NS_ENUM(NSInteger, UploadResponseStatus) {
     Failure,
 };
 
-
-
-//@protocol DataSyncAarryDataDelegate <NSObject>
-//
-//@property (strong, nonatomic) NSString * key;
-//@property (assign, nonatomic) UploadStatus status;
-//
-//@end
-//
-@protocol DataSyncDataDelegate <NSObject>
-//
-//@property (strong, nonatomic) NSString * key;
-//@property (assign, nonatomic) UploadStatus status;
-//
-@end
-//
 @protocol DataSyncRealmDataDelegate <NSObject>
 
-//- (id)Data;
+@property NSString * key;
+@property UploadStatus status;
+@property int modifyUtc;
+@property int serverUpdateUtc;
+
+@end
+
+@protocol DataSyncDataDelegate <NSObject>
+
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadStatus status;
+@property (assign, nonatomic) int modifyUtc;
 @property (assign, nonatomic) int serverUpdateUtc;
 
 @end
 
-@protocol DataSyncResponseDataDelegate <NSObject>
+@protocol DataSyncUploadResponseDataDelegate <NSObject>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadResponseStatus status;
+@property (assign, nonatomic) int serverUpdateUtc;
+
+@end
+
+@protocol DataSyncDownloadResponseDataDelegate <NSObject>
+
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) int modifyUtc;
 @property (assign, nonatomic) int serverUpdateUtc;
 
 @end

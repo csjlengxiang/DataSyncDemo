@@ -11,21 +11,16 @@
 #import <Mantle/Mantle.h>
 #import <Realm/Realm.h>
 
-@class DataSyncRealmData;
-@class DataSyncRequesteData;
-
-@interface DataSyncData : NSObject ///<DataSyncDataDelegate>
+@interface DataSyncData : NSObject <DataSyncDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadStatus status;
 @property (assign, nonatomic) int modifyUtc;
 @property (assign, nonatomic) int serverUpdateUtc;
 
-- (void)update;
-
 @end
 
-@interface DataSyncRealmData : RLMObject 
+@interface DataSyncRealmData : RLMObject <DataSyncRealmDataDelegate>
 
 @property NSString * key;
 @property UploadStatus status;
@@ -36,17 +31,18 @@
 
 @end
 
-@interface DataSyncRequestData : MTLModel <MTLJSONSerializing>
-
-@property (strong, nonatomic) NSString * key;
-@property (assign, nonatomic) int modifyUtc;
-
-@end
-
-@interface DataSyncResponseData : MTLModel <MTLJSONSerializing, DataSyncResponseDataDelegate>
+@interface DataSyncUploadResponseData : NSObject <DataSyncUploadResponseDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadResponseStatus status;
+@property (assign, nonatomic) int serverUpdateUtc;
+
+@end
+
+@interface DataSyncDownloadResponseData : NSObject <DataSyncDownloadResponseDataDelegate>
+
+@property (strong, nonatomic) NSString * key;
+@property (assign, nonatomic) int modifyUtc;
 @property (assign, nonatomic) int serverUpdateUtc;
 
 @end

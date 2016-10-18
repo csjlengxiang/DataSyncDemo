@@ -15,8 +15,10 @@
 + (void)store:(RLMObject *)object;
 
 - (instancetype)initWithDataClass:(Class)dataClass realmClass:(Class)realmClass;
-- (NSArray *)uploadingSyncData;
-- (NSArray *)waitUploadSyncData;
-- (void)storeArr:(NSArray<id<DataSyncResponseDataDelegate>> *)responseArr;
+- (NSArray<id<DataSyncDataDelegate>> *)waitUploadSyncData;
+- (void)storeUploadResponseArr:(NSArray<id<DataSyncUploadResponseDataDelegate>> *)responseArr;
+- (void)storeDownloadResponseArr:(NSArray<id<DataSyncDownloadResponseDataDelegate>> *)responseArr;
+- (int)maxServerUpdateUtc;
+- (void)reset;
 
 @end

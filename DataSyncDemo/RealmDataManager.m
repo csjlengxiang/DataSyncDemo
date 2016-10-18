@@ -42,19 +42,7 @@
     }];
 }
 
-- (NSArray *)uploadingSyncData {
-    NSMutableArray * ret = [NSMutableArray new];
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
-    RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
-    for (id data in arr) {
-        [ret addObject:[(NSObject *)data data:self.dataClass]];
-    }
-    [realm commitWriteTransaction];
-    return ret;
-}
-
-- (NSArray *)waitUploadSyncData {
+- (NSArray<id<DataSyncDataDelegate>> *)waitUploadSyncData {
     [self reset];
     NSMutableArray * ret = [NSMutableArray new];
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -79,9 +67,9 @@
     [realm commitWriteTransaction];
 }
 
-- (void)storeArr:(NSArray<id<DataSyncResponseDataDelegate>> *)responseArr {
+- (void)storeUploadResponseArr:(NSArray<id<DataSyncUploadResponseDataDelegate>> *)responseArr {
     NSMutableDictionary * responseDic = [NSMutableDictionary new]; // 全集
-    for (id<DataSyncResponseDataDelegate> responseData in responseArr) {
+    for (id<DataSyncUploadResponseDataDelegate> responseData in responseArr) {
         responseDic[responseData.key] = responseData;
     }
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -89,7 +77,7 @@
     RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
     for (id<DataSyncRealmDataDelegate> data in arr) { // 在上传过程中可能将ing->wait，故这里是子集
         if (responseDic[data.key]) {
-            id<DataSyncResponseDataDelegate> responseData = responseDic[data.key];
+            id<DataSyncUploadResponseDataDelegate> responseData = responseDic[data.key];
             if (responseData.status == Success) {
                 data.status = Completed;
                 data.serverUpdateUtc = responseData.serverUpdateUtc;
@@ -100,8 +88,40 @@
         data.status = Wait;
     }
     [realm commitWriteTransaction];
-    
-    NSLog(@"%@", realm.configuration.fileURL);
+}
+
+- (void)storeDownloadResponseArr:(NSArray<id<DataSyncDownloadResponseDataDelegate>> *)responseArr {
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    for (id<DataSyncDownloadResponseDataDelegate> data in responseArr) {
+        NSString * key = data.key;
+        id<DataSyncRealmDataDelegate> localRealmData = [self.realmClass objectForPrimaryKey:key];
+        if (localRealmData) {
+            if (localRealmData.status == Wait) {
+                if (localRealmData.modifyUtc < data.modifyUtc) { // 被新数据覆盖
+                    id<DataSyncRealmDataDelegate> newRealmData = [(NSObject *)data data:self.realmClass];
+                    newRealmData.status = Completed;
+                    [realm addOrUpdateObject:newRealmData];
+                }
+            } else if (localRealmData.status == Ing) {
+                NSAssert(localRealmData.status != Ing, @"download data will not uploading");
+            } else if (localRealmData.status == Completed) {
+                NSAssert(localRealmData.modifyUtc <= data.modifyUtc, @"if local data is new and completed. bug");
+                id<DataSyncRealmDataDelegate> newRealmData = [(NSObject *)data data:self.realmClass];
+                newRealmData.status = Completed;
+                [realm addOrUpdateObject:newRealmData];
+            }
+        } else {
+            id<DataSyncRealmDataDelegate> newRealmData = [(NSObject *)data data:self.realmClass];
+            newRealmData.status = Completed;
+            [realm addOrUpdateObject:newRealmData];
+        }
+    }
+    [realm commitWriteTransaction];
+}
+
+- (int)maxServerUpdateUtc {
+    return [[[self.realmClass allObjects] maxOfProperty:@"serverUpdateUtc"] intValue];
 }
 
 @end

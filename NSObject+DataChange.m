@@ -24,6 +24,13 @@
         for(unsigned int i = 0; i < propertiesCount; i++) {
             objc_property_t property = properties[i];
             NSString * key = [[NSString alloc] initWithCString:property_getName(property) encoding:NSUTF8StringEncoding];
+            if ([key isEqualToString:@"hash"] ||
+                [key isEqualToString:@"superclass"] ||
+                [key isEqualToString:@"debugDescription"] ||
+                [key isEqualToString:@"description"]
+                ) {
+                continue;
+            }
             [result addObject:key];
         }
         free(properties);
