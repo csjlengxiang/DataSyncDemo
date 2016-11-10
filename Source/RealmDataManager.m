@@ -64,6 +64,7 @@
     RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
     for (id<DataSyncRealmDataDelegate> data in arr) {
         data.status = Wait;
+        data.retryCount += 1;
     }
     [realm commitWriteTransaction];
 }
