@@ -26,6 +26,7 @@
 @property UploadStatus status;
 @property int modifyUtc;
 @property int serverUpdateUtc;
+@property int retryCount;
 
 - (void)store;
 

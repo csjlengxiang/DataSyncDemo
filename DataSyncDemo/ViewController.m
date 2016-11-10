@@ -16,6 +16,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [DataSyncManager sharedInstance];
+    
     for (int i = 0; i < 10; i++) {
         DataSyncData * data = [[DataSyncData alloc] init];
         data.key = [NSString stringWithFormat:@"key %d", i];

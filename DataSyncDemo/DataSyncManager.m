@@ -64,16 +64,28 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        [self setupRealm];
         self.realmDataManager = [[RealmDataManager alloc] initWithDataClass:[DataSyncData class] realmClass:[DataSyncRealmData class]];
     }
     return self;
+}
+
+- (void)setupRealm {
+    RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
+    config.schemaVersion = 1;
+    config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+        if (oldSchemaVersion < 1) {
+            // add retry count. default is 0.
+        }
+    };
+    [RLMRealmConfiguration setDefaultConfiguration:config];
 }
 
 - (void)upload {
     NSLog(@"-- start upload");
     
     // 模拟请求的数据
-    NSArray<DataSyncData *> * res = [self.realmDataManager waitUploadSyncData];
+    NSArray<DataSyncData *> * res = (NSArray<DataSyncData *> *)[self.realmDataManager waitUploadSyncData];
     NSMutableArray <DataSyncUploadRequestData *> * mantleArr = [NSMutableArray new];
     for (DataSyncData * data in res) {
         [mantleArr addObject:[data data:[DataSyncUploadRequestData class]]];
