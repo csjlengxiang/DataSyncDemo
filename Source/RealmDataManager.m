@@ -43,6 +43,7 @@
     }];
 }
 
+// 当 ret count = 0 应该 stop
 - (NSArray<id<DataSyncDataDelegate>> *)waitUploadSyncData {
     [self reset];
     NSMutableArray * ret = [NSMutableArray new];
@@ -50,9 +51,19 @@
     // 注意此处需要原子操作
     [realm beginWriteTransaction];
     RLMResults * arr = [[[self.realmClass allObjects] objectsWhere:@"status == %d", Wait] sortedResultsUsingProperty:@"retryCount" ascending:YES];
-    for (RLMObject<DataSyncRealmDataDelegate> * data in arr) {
-        data.status = Ing;
-        [ret addObject:[data data:self.dataClass]];
+    if (arr.count > 0) {
+        RLMObject<DataSyncRealmDataDelegate> * firstData = [arr firstObject];
+        if (firstData.retryCount == 3) { // 第一次出现retry 3次 就停止咯，为了防止冲击最新的，于是retry变为1
+            arr = [[self.realmClass allObjects] objectsWhere:@"status == %d && retryCount == %d", Wait, 3];
+            for (RLMObject<DataSyncRealmDataDelegate> * data in arr) {
+                data.retryCount = 1;
+            }
+        } else {
+            for (RLMObject<DataSyncRealmDataDelegate> * data in arr) {
+                data.status = Ing;
+                [ret addObject:[data data:self.dataClass]];
+            }
+        }
     }
     [realm commitWriteTransaction];
     return ret;
