@@ -19,6 +19,7 @@
 		38BB7A121DACED4000068298 /* DataSyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BB7A111DACED4000068298 /* DataSyncData.m */; };
 		64030C201DD443E3002B51C1 /* NSObject+DataChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 64030C1D1DD443E3002B51C1 /* NSObject+DataChange.m */; };
 		64030C211DD443E3002B51C1 /* RealmLargeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 64030C1F1DD443E3002B51C1 /* RealmLargeDataManager.m */; };
+		64DAABEF1DE087B300763B07 /* RealmSmallDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DAABED1DE087B300763B07 /* RealmSmallDataManager.m */; };
 		7DB0A3EA2074BD1F94141371 /* Pods_DataSyncDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0464FC2DC2F6A68CC7B0A23D /* Pods_DataSyncDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,9 @@
 		64030C1D1DD443E3002B51C1 /* NSObject+DataChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DataChange.m"; path = "Source/NSObject+DataChange.m"; sourceTree = "<group>"; };
 		64030C1E1DD443E3002B51C1 /* RealmLargeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RealmLargeDataManager.h; path = Source/RealmLargeDataManager.h; sourceTree = "<group>"; };
 		64030C1F1DD443E3002B51C1 /* RealmLargeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RealmLargeDataManager.m; path = Source/RealmLargeDataManager.m; sourceTree = "<group>"; };
+		64DAABEC1DE087B300763B07 /* RealmSmallDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RealmSmallDataManager.h; path = Source/RealmSmallDataManager.h; sourceTree = "<group>"; };
+		64DAABED1DE087B300763B07 /* RealmSmallDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RealmSmallDataManager.m; path = Source/RealmSmallDataManager.m; sourceTree = "<group>"; };
+		64DAABEE1DE087B300763B07 /* SmallDataSyncDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmallDataSyncDelegate.h; path = Source/SmallDataSyncDelegate.h; sourceTree = "<group>"; };
 		B55D4536CC76811758CB646F /* Pods-DataSyncDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DataSyncDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DataSyncDemo/Pods-DataSyncDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +181,9 @@
 		6459E7881DD41EBA009301D0 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				64DAABEC1DE087B300763B07 /* RealmSmallDataManager.h */,
+				64DAABED1DE087B300763B07 /* RealmSmallDataManager.m */,
+				64DAABEE1DE087B300763B07 /* SmallDataSyncDelegate.h */,
 				64030C1B1DD443E3002B51C1 /* LargeDataSyncDelegate.h */,
 				64030C1C1DD443E3002B51C1 /* NSObject+DataChange.h */,
 				64030C1D1DD443E3002B51C1 /* NSObject+DataChange.m */,
@@ -382,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3898A6D91DACC9C500DE96BF /* ViewController.m in Sources */,
+				64DAABEF1DE087B300763B07 /* RealmSmallDataManager.m in Sources */,
 				3898A6D61DACC9C500DE96BF /* AppDelegate.m in Sources */,
 				64030C201DD443E3002B51C1 /* NSObject+DataChange.m in Sources */,
 				64030C211DD443E3002B51C1 /* RealmLargeDataManager.m in Sources */,
