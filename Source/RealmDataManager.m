@@ -122,9 +122,11 @@
                 NSAssert(localRealmData.status != Ing, @"download data will not uploading");
             } else if (localRealmData.status == Completed) {
                 NSAssert(localRealmData.modifyUtc <= data.modifyUtc, @"if local data is new and completed. bug");
-                RLMObject<DataSyncRealmDataDelegate> * newRealmData = [(NSObject *)data data:self.realmClass];
-                newRealmData.status = Completed;
-                [realm addOrUpdateObject:newRealmData];
+                if (localRealmData.modifyUtc < data.modifyUtc) {
+                    RLMObject<DataSyncRealmDataDelegate> * newRealmData = [(NSObject *)data data:self.realmClass];
+                    newRealmData.status = Completed;
+                    [realm addOrUpdateObject:newRealmData];
+                }
             }
         } else {
             RLMObject<DataSyncRealmDataDelegate> * newRealmData = [(NSObject *)data data:self.realmClass];
