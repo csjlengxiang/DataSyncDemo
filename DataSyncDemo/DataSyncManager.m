@@ -47,7 +47,7 @@
 
 @interface DataSyncManager ()
 
-@property (strong, nonatomic) RealmDataManager * realmDataManager;
+@property (strong, nonatomic) RealmLargeDataManager * realmDataManager;
 
 @end
 
@@ -65,7 +65,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self setupRealm];
-        self.realmDataManager = [[RealmDataManager alloc] initWithDataClass:[DataSyncData class] realmClass:[DataSyncRealmData class]];
+        self.realmDataManager = [[RealmLargeDataManager alloc] initWithDataClass:[DataSyncData class] realmClass:[DataSyncRealmData class]];
     }
     return self;
 }

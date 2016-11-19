@@ -22,7 +22,7 @@
 }
 
 - (void)store {
-    [RealmDataManager store:self];
+    [RealmLargeDataManager store:self];
 }
 
 @end
