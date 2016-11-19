@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, UploadResponseStatus) {
     Failure,
 };
 
-@protocol DataSyncRealmDataDelegate
+@protocol DataSyncRealmLargeDataDelegate
 
 @property NSString * key;
 @property UploadStatus status;
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, UploadResponseStatus) {
 
 @end
 
-@protocol DataSyncDataDelegate
+@protocol DataSyncLargeDataDelegate
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadStatus status;
@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, UploadResponseStatus) {
 
 @end
 
-@protocol DataSyncUploadResponseDataDelegate
+@protocol DataSyncUploadResponseLargeDataDelegate
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadResponseStatus status;
@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, UploadResponseStatus) {
 
 @end
 
-@protocol DataSyncDownloadResponseDataDelegate
+@protocol DataSyncDownloadResponseLargeDataDelegate
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) int modifyUtc;

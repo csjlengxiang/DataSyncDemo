@@ -38,6 +38,10 @@
     return [result copy];
 }
 
+- (BOOL)containsProperty:(NSString *)property {
+    return [[NSMutableSet setWithArray:[NSObject getPropertyKeys:[self class]]] containsObject:property];
+}
+
 - (id)data:(Class)class {
     NSMutableSet<NSString *> * keysSet = [NSMutableSet setWithArray:[NSObject getPropertyKeys:[self class]]];
     NSMutableSet<NSString *> * dataKeysSet = [NSMutableSet setWithArray:[NSObject getPropertyKeys:class]];

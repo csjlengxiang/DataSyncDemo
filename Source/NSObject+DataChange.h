@@ -12,5 +12,6 @@
 @interface NSObject (DataChange)
 
 - (id)data:(Class)class;
+- (BOOL)containsProperty:(NSString *)property;
 
 @end

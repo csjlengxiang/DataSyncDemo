@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DataSyncDelegate.h"
+#import "LargeDataSyncDelegate.h"
 #import <Mantle/Mantle.h>
 #import <Realm/Realm.h>
 
-@interface DataSyncData : NSObject <DataSyncDataDelegate>
+@interface DataSyncData : NSObject <DataSyncLargeDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadStatus status;
@@ -20,7 +20,7 @@
 
 @end
 
-@interface DataSyncRealmData : RLMObject <DataSyncRealmDataDelegate>
+@interface DataSyncRealmData : RLMObject <DataSyncRealmLargeDataDelegate>
 
 @property NSString * key;
 @property UploadStatus status;
@@ -32,7 +32,7 @@
 
 @end
 
-@interface DataSyncUploadResponseData : NSObject <DataSyncUploadResponseDataDelegate>
+@interface DataSyncUploadResponseData : NSObject <DataSyncUploadResponseLargeDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadResponseStatus status;
@@ -40,7 +40,7 @@
 
 @end
 
-@interface DataSyncDownloadResponseData : NSObject <DataSyncDownloadResponseDataDelegate>
+@interface DataSyncDownloadResponseData : NSObject <DataSyncDownloadResponseLargeDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) int modifyUtc;

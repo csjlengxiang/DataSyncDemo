@@ -7,7 +7,7 @@
 //
 
 #import "DataSyncManager.h"
-#import "RealmDataManager.h"
+#import "RealmLargeDataManager.h"
 #import "DataSyncData.h"
 #import "NSObject+DataChange.h"
 
