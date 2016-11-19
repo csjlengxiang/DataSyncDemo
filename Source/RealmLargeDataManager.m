@@ -9,14 +9,14 @@
 #import "RealmLargeDataManager.h"
 #import "NSObject+DataChange.h"
 
-@interface RealmDataManager ()
+@interface RealmLargeDataManager ()
 
 @property (nonatomic, strong) Class dataClass;
 @property (nonatomic, strong) Class realmClass;
 
 @end
 
-@implementation RealmDataManager
+@implementation RealmLargeDataManager
 
 + (instancetype)sharedInstance {
     static id instance = nil;

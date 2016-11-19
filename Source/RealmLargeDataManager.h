@@ -10,7 +10,7 @@
 #import <Realm/Realm.h>
 #import "LargeDataSyncDelegate.h"
 
-@interface RealmDataManager : NSObject
+@interface RealmLargeDataManager : NSObject
 
 + (void)store:(RLMObject *)object;
 
