@@ -8,42 +8,43 @@
 
 #import <Foundation/Foundation.h>
 #import "LargeDataSyncDelegate.h"
+#import "SmallDataSyncDelegate.h"
 #import <Mantle/Mantle.h>
 #import <Realm/Realm.h>
 
-@interface DataSyncData : NSObject <DataSyncLargeDataDelegate>
+@interface DataSyncData : NSObject <DataSyncSmallDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadStatus status;
 @property (assign, nonatomic) int modifyUtc;
-@property (assign, nonatomic) int serverUpdateUtc;
+//@property (assign, nonatomic) int serverUpdateUtc;
 
 @end
 
-@interface DataSyncRealmData : RLMObject <DataSyncRealmLargeDataDelegate>
+@interface DataSyncRealmData : RLMObject <DataSyncRealmSmallDataDelegate>
 
 @property NSString * key;
 @property UploadStatus status;
 @property int modifyUtc;
-@property int serverUpdateUtc;
-@property int retryCount;
+//@property int serverUpdateUtc;
+//@property int retryCount;
 
 - (void)store;
 
 @end
 
-@interface DataSyncUploadResponseData : NSObject <DataSyncUploadResponseLargeDataDelegate>
+@interface DataSyncUploadResponseData : NSObject <DataSyncUploadResponseSmallDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) UploadResponseStatus status;
-@property (assign, nonatomic) int serverUpdateUtc;
+//@property (assign, nonatomic) int serverUpdateUtc;
 
 @end
 
-@interface DataSyncDownloadResponseData : NSObject <DataSyncDownloadResponseLargeDataDelegate>
+@interface DataSyncDownloadResponseData : NSObject <DataSyncDownloadResponseSmallDataDelegate>
 
 @property (strong, nonatomic) NSString * key;
 @property (assign, nonatomic) int modifyUtc;
-@property (assign, nonatomic) int serverUpdateUtc;
+//@property (assign, nonatomic) int serverUpdateUtc;
 
 @end

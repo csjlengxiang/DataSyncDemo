@@ -7,7 +7,8 @@
 //
 
 #import "DataSyncData.h"
-#import "RealmLargeDataManager.h"
+//#import "RealmLargeDataManager.h"
+#import "RealmSmallDataManager.h"
 #import <objc/runtime.h>
 #import "NSObject+DataChange.h"
 
@@ -22,7 +23,7 @@
 }
 
 - (void)store {
-    [RealmLargeDataManager store:self];
+    [RealmSmallDataManager store:self];
 }
 
 @end
