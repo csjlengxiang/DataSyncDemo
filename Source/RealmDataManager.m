@@ -6,17 +6,19 @@
 //  Copyright © 2016年 sijiechen3. All rights reserved.
 //
 
-#import "RealmSmallDataManager.h"
+#import "RealmDataManager.h"
 #import "NSObject+DataChange.h"
+#import "objc/runtime.h"
 
-@interface RealmSmallDataManager ()
+@interface RealmDataManager ()
 
 @property (nonatomic, strong) Class dataClass;
 @property (nonatomic, strong) Class realmClass;
+@property (nonatomic, assign) BOOL isLargeData;
 
 @end
 
-@implementation RealmSmallDataManager
+@implementation RealmDataManager
 
 + (instancetype)sharedInstance {
     static id instance = nil;
@@ -31,27 +33,57 @@
     if (self = [super init]) {
         self.dataClass = dataClass;
         self.realmClass = realmClass;
+        self.isLargeData = class_conformsToProtocol(self.dataClass, @protocol(DataSyncLargeDataDelegate)) && class_conformsToProtocol(self.realmClass, @protocol(DataSyncRealmLargeDataDelegate));
     }
     return self;
 }
 
++ (RLMObject<DataSyncRealmLargeDataDelegate> *)largeObject:(RLMObject *)object {
+    RLMObject<DataSyncRealmLargeDataDelegate> * largeObject;
+    if ([object conformsToProtocol:@protocol(DataSyncRealmLargeDataDelegate)]) {
+        largeObject = (RLMObject<DataSyncRealmLargeDataDelegate> *)object;
+    }
+    return largeObject;
+}
+
 + (void)store:(RLMObject<DataSyncRealmSmallDataDelegate> *)object {
+    RLMObject<DataSyncRealmLargeDataDelegate> * largeObject = [RealmDataManager largeObject:object];
+    largeObject.retryCount = 0;
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^{
         [realm addOrUpdateObject:object];
     }];
 }
 
+// 当 ret count = 0 应该 stop
 - (NSArray<id<DataSyncSmallDataDelegate>> *)waitUploadSyncData {
     [self reset];
     NSMutableArray * ret = [NSMutableArray new];
     RLMRealm *realm = [RLMRealm defaultRealm];
     // 注意此处需要原子操作
     [realm beginWriteTransaction];
-    RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Wait];
-    for (RLMObject<DataSyncRealmSmallDataDelegate> * data in arr) {
-        data.status = Ing;
-        [ret addObject:[data data:self.dataClass]];
+    if (self.isLargeData) {
+        RLMResults * arr = [[[self.realmClass allObjects] objectsWhere:@"status == %d", Wait] sortedResultsUsingProperty:@"retryCount" ascending:YES];
+        if (arr.count > 0) {
+            RLMObject<DataSyncRealmLargeDataDelegate> * firstData = [arr firstObject];
+            if (firstData.retryCount == 3) { // 第一次出现retry 3次 就停止咯，为了防止冲击最新的，于是retry变为1
+                arr = [[self.realmClass allObjects] objectsWhere:@"status == %d && retryCount == %d", Wait, 3];
+                for (RLMObject<DataSyncRealmLargeDataDelegate> * data in arr) {
+                    data.retryCount = 1;
+                }
+            } else {
+                for (RLMObject<DataSyncRealmLargeDataDelegate> * data in arr) {
+                    data.status = Ing;
+                    [ret addObject:[data data:self.dataClass]];
+                }
+            }
+        }
+    } else {
+        RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Wait];
+        for (RLMObject<DataSyncRealmSmallDataDelegate> * data in arr) {
+            data.status = Ing;
+            [ret addObject:[data data:self.dataClass]];
+        }
     }
     [realm commitWriteTransaction];
     return ret;
@@ -61,8 +93,11 @@
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
     RLMResults * arr = [[self.realmClass allObjects] objectsWhere:@"status == %d", Ing];
-    for (id<DataSyncRealmSmallDataDelegate> data in arr) {
+    for (RLMObject<DataSyncRealmSmallDataDelegate> * data in arr) {
         data.status = Wait;
+        if (self.isLargeData) {
+            ((RLMObject<DataSyncRealmLargeDataDelegate> *)data).retryCount += 1;
+        }
     }
     [realm commitWriteTransaction];
 }
@@ -80,11 +115,17 @@
             id<DataSyncUploadResponseSmallDataDelegate> responseData = responseDic[data.key];
             if (responseData.status == Success) {
                 data.status = Completed;
+                if (self.isLargeData) {
+                    ((id<DataSyncRealmLargeDataDelegate>)data).serverUpdateUtc = ((id<DataSyncUploadResponseLargeDataDelegate>)responseData).serverUpdateUtc;
+                }
                 continue;
             }
         }
         // 失败情况
         data.status = Wait;
+        if (self.isLargeData) {
+            ((id<DataSyncRealmLargeDataDelegate>)data).retryCount += 1;
+        }
     }
     [realm commitWriteTransaction];
 }
@@ -120,6 +161,10 @@
         }
     }
     [realm commitWriteTransaction];
+}
+
+- (int)maxServerUpdateUtc {
+    return [[[self.realmClass allObjects] maxOfProperty:@"serverUpdateUtc"] intValue];
 }
 
 @end

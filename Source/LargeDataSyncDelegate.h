@@ -8,49 +8,29 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "SmallDataSyncDelegate.h"
 
-typedef NS_ENUM(NSInteger, UploadStatus) {
-    Wait,
-    Ing,
-    Completed,
-};
+@protocol DataSyncRealmLargeDataDelegate <DataSyncRealmSmallDataDelegate>
 
-typedef NS_ENUM(NSInteger, UploadResponseStatus) {
-    Success,
-    Failure,
-};
-
-@protocol DataSyncRealmLargeDataDelegate
-
-@property NSString * key;
-@property UploadStatus status;
-@property int modifyUtc;
 @property int serverUpdateUtc;
 @property int retryCount;
 
 @end
 
-@protocol DataSyncLargeDataDelegate
+@protocol DataSyncLargeDataDelegate <DataSyncSmallDataDelegate>
 
-@property (strong, nonatomic) NSString * key;
-@property (assign, nonatomic) UploadStatus status;
-@property (assign, nonatomic) int modifyUtc;
 @property (assign, nonatomic) int serverUpdateUtc;
 
 @end
 
-@protocol DataSyncUploadResponseLargeDataDelegate
+@protocol DataSyncUploadResponseLargeDataDelegate <DataSyncUploadResponseSmallDataDelegate>
 
-@property (strong, nonatomic) NSString * key;
-@property (assign, nonatomic) UploadResponseStatus status;
 @property (assign, nonatomic) int serverUpdateUtc;
 
 @end
 
-@protocol DataSyncDownloadResponseLargeDataDelegate
+@protocol DataSyncDownloadResponseLargeDataDelegate <DataSyncDownloadResponseSmallDataDelegate>
 
-@property (strong, nonatomic) NSString * key;
-@property (assign, nonatomic) int modifyUtc;
 @property (assign, nonatomic) int serverUpdateUtc;
 
 @end

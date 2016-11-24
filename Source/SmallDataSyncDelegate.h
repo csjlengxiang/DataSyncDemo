@@ -8,18 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "LargeDataSyncDelegate.h"
 
-//typedef NS_ENUM(NSInteger, UploadStatus) {
-//    Wait,
-//    Ing,
-//    Completed,
-//};
-//
-//typedef NS_ENUM(NSInteger, UploadResponseStatus) {
-//    Success,
-//    Failure,
-//};
+typedef NS_ENUM(NSInteger, UploadStatus) {
+    Wait,
+    Ing,
+    Completed,
+};
+
+typedef NS_ENUM(NSInteger, UploadResponseStatus) {
+    Success,
+    Failure,
+};
 
 @protocol DataSyncRealmSmallDataDelegate
 

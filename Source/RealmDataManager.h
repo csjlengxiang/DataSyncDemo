@@ -8,16 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
-#import "SmallDataSyncDelegate.h"
+#import "LargeDataSyncDelegate.h"
 
-@interface RealmSmallDataManager : NSObject
+@interface RealmDataManager : NSObject
 
-+ (void)store:(RLMObject *)object;
++ (void)store:(RLMObject<DataSyncRealmSmallDataDelegate> *)object;
 
 - (instancetype)initWithDataClass:(Class)dataClass realmClass:(Class)realmClass;
 - (NSArray<id<DataSyncSmallDataDelegate>> *)waitUploadSyncData;
 - (void)storeUploadResponseArr:(NSArray<id<DataSyncUploadResponseSmallDataDelegate>> *)responseArr;
 - (void)storeDownloadResponseArr:(NSArray<id<DataSyncDownloadResponseSmallDataDelegate>> *)responseArr;
+- (int)maxServerUpdateUtc;
 - (void)reset;
 
 @end

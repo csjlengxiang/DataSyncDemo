@@ -8,7 +8,7 @@
 
 #import "DataSyncManager.h"
 //#import "RealmLargeDataManager.h"
-#import "RealmSmallDataManager.h"
+#import "RealmDataManager.h"
 #import "DataSyncData.h"
 #import "NSObject+DataChange.h"
 
@@ -48,7 +48,7 @@
 
 @interface DataSyncManager ()
 
-@property (strong, nonatomic) RealmSmallDataManager * realmDataManager;
+@property (strong, nonatomic) RealmDataManager * realmDataManager;
 
 @end
 
@@ -66,7 +66,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         [self setupRealm];
-        self.realmDataManager = [[RealmSmallDataManager alloc] initWithDataClass:[DataSyncData class] realmClass:[DataSyncRealmData class]];
+        self.realmDataManager = [[RealmDataManager alloc] initWithDataClass:[DataSyncData class] realmClass:[DataSyncRealmData class]];
     }
     return self;
 }
