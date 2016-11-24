@@ -31,8 +31,8 @@ typedef NS_ENUM(NSInteger, UploadResponseStatus) {
 @protocol DataSyncSmallDataDelegate
 
 @property (strong, nonatomic) NSString * key;
-@property (assign, nonatomic) UploadStatus status;
-@property (assign, nonatomic) int modifyUtc;
+//@property (assign, nonatomic) UploadStatus status;
+//@property (assign, nonatomic) int modifyUtc;
 
 @end
 

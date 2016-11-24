@@ -21,9 +21,9 @@
     for (int i = 0; i < 10; i++) {
         DataSyncData * data = [[DataSyncData alloc] init];
         data.key = [NSString stringWithFormat:@"key %d", i];
-        data.status = Wait;
-        data.modifyUtc = [[NSDate date] timeIntervalSince1970];
-        [[data data:[DataSyncRealmData class]] store];
+        //data.status = Wait;
+        //data.modifyUtc = [[NSDate date] timeIntervalSince1970];
+        [[data data:[DataSyncRealmData class]] addOrUpdate];
     }
     
     [[DataSyncManager sharedInstance] upload];

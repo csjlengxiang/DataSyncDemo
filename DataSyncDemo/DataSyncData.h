@@ -14,9 +14,11 @@
 
 @interface DataSyncData : NSObject <DataSyncSmallDataDelegate>
 
+// 讲道理，data其实并没有必要控制realm data存储状态等相关的东西，应该在store时候realm data自动进行相关状态的切换
+// 除非我们想手动控制状态才需要对应上...
 @property (strong, nonatomic) NSString * key;
-@property (assign, nonatomic) UploadStatus status;
-@property (assign, nonatomic) int modifyUtc;
+//@property (assign, nonatomic) UploadStatus status;
+//@property (assign, nonatomic) int modifyUtc;
 //@property (assign, nonatomic) int serverUpdateUtc;
 
 @end
@@ -29,7 +31,8 @@
 //@property int serverUpdateUtc;
 //@property int retryCount;
 
-- (void)store;
+- (void)addOrUpdate;
+- (void)addOrUpdateWithUploadStatus:(UploadStatus)status modifyUtc:(int)modifyUtc;
 
 @end
 

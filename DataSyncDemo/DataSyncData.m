@@ -22,6 +22,20 @@
 }
 
 - (void)store {
+    self.status = Wait;
+    self.modifyUtc = [[NSDate date] timeIntervalSince1970];
+    [RealmDataManager store:self];
+}
+
+- (void)addOrUpdate {
+    self.status = Wait;
+    self.modifyUtc = [[NSDate date] timeIntervalSince1970];
+    [RealmDataManager store:self];
+}
+
+- (void)addOrUpdateWithUploadStatus:(UploadStatus)status modifyUtc:(int)modifyUtc {
+    self.status = status;
+    self.modifyUtc = modifyUtc;
     [RealmDataManager store:self];
 }
 
